@@ -78,3 +78,7 @@ def TestGetUsers(x):
     for user in users:
         print(user.name)
     
+def Message(user,subject,msg):
+    """Send a message to user (user)"""
+    reddit.redditor(user).message(subject,msg)
+    
