@@ -1,4 +1,4 @@
-import puniX
+import puniX #contains user info
 import praw
 reddit =None
 
