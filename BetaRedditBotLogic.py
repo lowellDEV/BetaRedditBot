@@ -14,22 +14,23 @@ def main():
     global reddit
     reddit = bot.reddit
     search()
-
+    print(count)
     
 def search():
     """Search for users with pm in the username"""
-    while True:
-        pm = None
-        pm = bot.searchForPM()
-        if pm is not None:
-            congratulate(pm)
+    list = bot.searchForPM()
+    if list:
+        for user in list:
+            congratulate(user)
 
 def congratulate(pm):
     """Send Scripted Message to user"""
+    global count
     msg= "Hello,\n This is a scripted message to greet people like you! I am curious to know if you have gotten your requested pms. Message back and you will get a human responder (probably).\n\nThanks!"
-    bot.message(pm,"Congrats!",msg)
+    bot.Message(pm.name,"Congrats!",msg)
+    print("Message sent to "+pm.name)
     count+=1
     
         
 if __name__=="__main__":
-    main():
+    main()

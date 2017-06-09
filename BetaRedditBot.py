@@ -4,7 +4,7 @@ import re
 """Contains the functions for the bot"""
 reddit =None 
 topPosts =None 
-
+masterList =['PM_ME_UR_TWINS']
 def TestAuth():
     """Prints the from the results of Authenticate()"""
     if reddit is None:
@@ -89,40 +89,49 @@ def TestMessage():
 def GetRedditObj():
     return reddit
 
-def search():
+def searchForPM():
+    return search('pm')
+    
+def search(x):
     """Search with increase scope (to be optimized)"""
     users =[]
     if reddit is None:
         Authenticate()
-    
+    print('hour')
     AcquireTopPosts()
     for post in topPosts:
         if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
             users.append(post.author)
         removeDuplicates(users)
+    print('day')
     if not users:
         AcquireTopPosts('all','day')
-            for post in topPosts:
-                if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
-                    users.append(post.author)
-                removeDuplicates(users)
+        for post in topPosts:
+            if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
+                users.append(post.author)
+        removeDuplicates(users)
+    print('week')
     if not users:
         AcquireTopPosts('all','week')
-            for post in topPosts:
-                if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
-                    users.append(post.author)
-                removeDuplicates(users)
+        for post in topPosts:
+            if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
+                users.append(post.author)
+        removeDuplicates(users)
+    print('month')
     if not users:
         AcquireTopPosts('all','month')
-            for post in topPosts:
-                if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
-                    users.append(post.author)
-                removeDuplicates(users)
+        for post in topPosts:
+            if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
+                users.append(post.author)
+        removeDuplicates(users)
+    if not users:
+        print('I give up!')
     return users
 
 def removeDuplicates(userList):
     """Remove names that have already been pm'ed"""
-    user = set(userList)
+    global masterList
+    users = set(userList)
     master =set(masterList)
     unique = users -master
     userList =list(unique)
