@@ -26,10 +26,10 @@ def Authenticate():
                      password=DEV.password,
                      user_agent='pythonScript/BetaRedditBot by /u/'+DEV.username,
                      username=DEV.username)
-def AcquireTopPosts():
+def AcquireTopPosts(sub ='all',time='hour'):
     """Grabs the top posts of all in the past hour"""
     global topPosts
-    topPosts = reddit.subreddit('all').top('hour')
+    topPosts = reddit.subreddit(sub).top(time)
     
 def TestAcquireTop():
     """Prints the from the results of AcquireTopPosts()"""
@@ -88,11 +88,52 @@ def TestMessage():
 
 def GetRedditObj():
     return reddit
+
+def search():
+    """Search with increase scope (to be optimized)"""
+    users =[]
+    if reddit is None:
+        Authenticate()
+    
+    AcquireTopPosts()
+    for post in topPosts:
+        if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
+            users.append(post.author)
+        removeDuplicates(users)
+    if not users:
+        AcquireTopPosts('all','day')
+            for post in topPosts:
+                if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
+                    users.append(post.author)
+                removeDuplicates(users)
+    if not users:
+        AcquireTopPosts('all','week')
+            for post in topPosts:
+                if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
+                    users.append(post.author)
+                removeDuplicates(users)
+    if not users:
+        AcquireTopPosts('all','month')
+            for post in topPosts:
+                if re.search(re.compile(re.escape(x),re.IGNORECASE),post.author.name):
+                    users.append(post.author)
+                removeDuplicates(users)
+    return users
+
+def removeDuplicates(userList):
+    """Remove names that have already been pm'ed"""
+    user = set(userList)
+    master =set(masterList)
+    unique = users -master
+    userList =list(unique)
+    masterList+= userList
+    return userList
+        
     
 def main():
     print("TestAuth()")
     TestAuth()
-    
+    print("TestAuth()")
     raw_input('press enter to continue...')
     print("TestAcquireTop()")
     TestAcquireTop()
