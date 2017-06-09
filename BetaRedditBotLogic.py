@@ -17,7 +17,7 @@ def main():
 
     
 def search():
-"""Search for users with pm in the username"""
+    """Search for users with pm in the username"""
     while True:
         pm = None
         pm = bot.searchForPM()
